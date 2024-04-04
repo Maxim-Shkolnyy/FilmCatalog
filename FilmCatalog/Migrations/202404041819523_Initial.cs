@@ -1,6 +1,8 @@
 ﻿namespace FilmCatalog.Migrations
 {
     using System;
+    using System.Collections.Generic;
+    using System.Data.Entity.Infrastructure.Annotations;
     using System.Data.Entity.Migrations;
     
     public partial class Initial : DbMigration
@@ -13,7 +15,14 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 200),
-                        ParentCategoryId = c.Int(),
+                        ParentCategoryId = c.Int(
+                            annotations: new Dictionary<string, AnnotationValues>
+                            {
+                                { 
+                                    "DefaultValueSql",
+                                    new AnnotationValues(oldValue: null, newValue: "1")
+                                },
+                            }),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Categories", t => t.ParentCategoryId)
@@ -56,7 +65,17 @@
             DropIndex("dbo.Categories", new[] { "ParentCategoryId" });
             DropTable("dbo.Films");
             DropTable("dbo.FilmCategories");
-            DropTable("dbo.Categories");
+            DropTable("dbo.Categories",
+                removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
+                {
+                    {
+                        "ParentCategoryId",
+                        new Dictionary<string, object>
+                        {
+                            { "DefaultValueSql", "1" },
+                        }
+                    },
+                });
         }
     }
 }
