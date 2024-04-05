@@ -48,5 +48,4 @@ namespace FilmCatalog.Models.Presistant
         //        .HasColumnAnnotation("DefaultValueSql", "1");
         //}
     }
-
 }
