@@ -21,5 +21,6 @@ namespace FilmCatalog.Models
 
         public virtual Category ParentCategory { get; set; }
 
+        public virtual ICollection<FilmCategory> FilmCategories { get; set; }
     }
 }

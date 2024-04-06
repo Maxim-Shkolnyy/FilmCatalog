@@ -1,5 +1,6 @@
 ﻿namespace FilmCatalog.Migrations
 {
+    using FilmCatalog.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -12,12 +13,19 @@
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(FilmCatalog.Models.Presistant.FilmDbContext context)
+        protected override void Seed(Models.Presistant.FilmDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            bool anyCategoriesExist = context.Categories.Any();
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
+            if (!anyCategoriesExist)
+            {
+                context.Categories.AddOrUpdate(
+                    c => c.Id,
+                    new Category {Name = "RootCategory", ParentCategoryId = 0}
+                );
+
+                context.SaveChanges();
+            }
         }
     }
 }

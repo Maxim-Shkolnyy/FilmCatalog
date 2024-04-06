@@ -1,5 +1,8 @@
-﻿using System;
+﻿using FilmCatalog.Migrations;
+using FilmCatalog.Models.Presistant;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -17,7 +20,8 @@ namespace FilmCatalog
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<FilmDbContext, Configuration>());
+
         }
     }
 }

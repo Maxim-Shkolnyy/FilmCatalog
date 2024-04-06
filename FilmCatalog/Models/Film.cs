@@ -22,5 +22,7 @@ namespace FilmCatalog.Models
         [Required(ErrorMessage = "Дата виходу фільму обов'язкова")]
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
+
+        public virtual ICollection<FilmCategory> FilmCategories { get; set; }
     }
 }
