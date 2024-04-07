@@ -15,17 +15,17 @@
 
         protected override void Seed(Models.Presistant.FilmDbContext context)
         {
-            bool anyCategoriesExist = context.Categories.Any();
+            //bool anyCategoriesExist = context.Categories.Any();
 
-            if (!anyCategoriesExist)
-            {
-                context.Categories.AddOrUpdate(
-                    c => c.Id,
-                    new Category {Name = "RootCategory", ParentCategoryId = 0}
-                );
+            //if (!anyCategoriesExist)
+            //{
+            //    context.Categories.AddOrUpdate(
+            //        c => c.Id,
+            //        new Category {Name = "RootCategory", ParentCategoryId = 0}
+            //    );
 
-                context.SaveChanges();
-            }
+            //    context.SaveChanges();
+            //}
         }
     }
 }

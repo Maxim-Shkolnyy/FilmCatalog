@@ -20,8 +20,7 @@ namespace FilmCatalog
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<FilmDbContext, Configuration>());
-
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<FilmDbContext, Configuration>());
         }
     }
 }
