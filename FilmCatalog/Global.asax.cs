@@ -20,27 +20,42 @@ namespace FilmCatalog
     {
         protected void Application_Start()
         {
-            //FilmDbContext context = new FilmDbContext();
-            
-            //bool anyCategoriesExist = context.Categories.Any();
-            //bool rootCategoryExist = context.Categories.Where(m => m.Id == 1).Any();
-            //var isCategoriesTableExists = context.Database.ExecuteSqlCommand(
-            //    "SELECT CASE WHEN EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Categories')" +
-            //    " THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS TableExists;");
+            FilmDbContext context = new FilmDbContext();
 
-            //Debug.WriteLine(isCategoriesTableExists);
+            bool anyCategoriesExist;
+            bool rootCategoryExist;
+
+            try
+            {
+                anyCategoriesExist = context.Categories.Any();
+                rootCategoryExist = context.Categories.Where(m => m.Id == 1).Any();
+
+                if (!anyCategoriesExist  & !rootCategoryExist)
+                {
+                    context.Categories.AddOrUpdate(
+                        c => c.Id,
+                        new Category { Name = "RootCategory", ParentCategoryId = 0 }
+                    );
+
+                    context.SaveChanges();
+                }
 
 
+                var rootCategory = context.Categories.FirstOrDefault(c => c.Id == 1);
+                if (anyCategoriesExist && rootCategory == null)
+                {
+                    context.Categories.Add(new Category {Name = "RootCategory", ParentCategoryId = 0 });
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
 
-            //if (isCategoriesTableExists > 0 & !rootCategoryExist)
-            //{
-            //    context.Categories.AddOrUpdate(
-            //        c => c.Id,
-            //        new Category { Name = "RootCategory", ParentCategoryId = 0 }
-            //    );
+                Debug.WriteLine("Root category does not created!!!");
+            }
 
-            //    context.SaveChanges();
-            //}
+            var isCategoriesTableExists = context.Database.ExecuteSqlCommand(
+                "SELECT CASE WHEN EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Categories') THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS TableExists;");
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

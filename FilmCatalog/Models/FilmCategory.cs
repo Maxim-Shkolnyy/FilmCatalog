@@ -10,6 +10,7 @@ namespace FilmCatalog.Models
     public class FilmCategory
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int FilmId { get; set; }
         public int CategoryId { get; set; } 

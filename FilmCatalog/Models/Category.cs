@@ -10,6 +10,7 @@ namespace FilmCatalog.Models
     public class Category
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Назва категорії обов'язкова")]
@@ -17,10 +18,10 @@ namespace FilmCatalog.Models
         public string Name { get; set; }
 
         [ForeignKey("ParentCategory")]
-        public int? ParentCategoryId { get; set; }
+        public int? ParentCategoryId { get; set; } = 1;
 
         public virtual Category ParentCategory { get; set; }
 
-        public virtual ICollection<FilmCategory> FilmCategories { get; set; }
+        public virtual ICollection<FilmCategory> FilmCategories { get; set; } = null;
     }
 }

@@ -40,6 +40,7 @@ namespace FilmCatalog.Controllers
         // GET: Films/Create
         public ActionResult Create()
         {
+            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name");
             return View();
         }
 
@@ -48,15 +49,29 @@ namespace FilmCatalog.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Director,ReleaseDate")] Film film)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Director,ReleaseDate,FilmCategories")] Film film, int[] selectedCategories)
         {
             if (ModelState.IsValid)
             {
+                if (selectedCategories != null)
+                {
+                    film.FilmCategories = new List<FilmCategory>();
+                    foreach (var categoryId in selectedCategories)
+                    {
+                        var category = db.Categories.Find(categoryId);
+                        if (category != null)
+                        {
+                            film.FilmCategories.Add(new FilmCategory { CategoryId = categoryId });
+                        }
+                    }
+                }
+
                 db.Films.Add(film);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name");
             return View(film);
         }
 
