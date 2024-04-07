@@ -8,16 +8,16 @@ namespace FilmCatalog.Models.Presistant
 {
     public class FilmDbContext : DbContext
     {
-        public FilmDbContext() : base("MyConnectionString")
-        {
-            var categoryWithId1 = Categories.FirstOrDefault(c => c.Id == 1);
+        //public FilmDbContext() : base("MyConnectionString")
+        //{
+        //    var categoryWithId1 = Categories.FirstOrDefault(c => c.Id == 1);
 
-            if (categoryWithId1 == null)
-            {
-                Categories.Add(new Category { Id = 1, Name = "Root Category" });
-                SaveChanges();
-            }
-        }
+        //    if (categoryWithId1 == null)
+        //    {
+        //        Categories.Add(new Category { Id = 1, Name = "Root Category" });
+        //        SaveChanges();
+        //    }
+        //}
 
         public DbSet<Film> Films { get; set; }
         public DbSet<Category> Categories { get; set; }

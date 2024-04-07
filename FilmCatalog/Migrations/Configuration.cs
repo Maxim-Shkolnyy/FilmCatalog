@@ -4,6 +4,7 @@
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Diagnostics;
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<FilmCatalog.Models.Presistant.FilmDbContext>
@@ -15,17 +16,7 @@
 
         protected override void Seed(Models.Presistant.FilmDbContext context)
         {
-            bool anyCategoriesExist = context.Categories.Any();
-
-            if (!anyCategoriesExist)
-            {
-                context.Categories.AddOrUpdate(
-                    c => c.Id,
-                    new Category {Name = "RootCategory", ParentCategoryId = 0}
-                );
-
-                context.SaveChanges();
-            }
+            
         }
     }
 }
