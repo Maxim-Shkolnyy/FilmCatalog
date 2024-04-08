@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/FilmCatalog/Migrations/202404071032561_MyInit.cs
+/FilmCatalog/Migrations/202404071032561_MyInit.Designer.cs
+/FilmCatalog/Migrations/202404071032561_MyInit.resx
