@@ -39,13 +39,14 @@ namespace FilmCatalog.Models.Presistant
         //    }
         //}
 
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    Database.SetInitializer(new DbContextInitializer());
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //Database.SetInitializer(new DbContextInitializer());
 
-        //         modelBuilder.Entity<Category>()
-        //        .Property(c => c.ParentCategoryId)
-        //        .HasColumnAnnotation("DefaultValueSql", "1");
-        //}
+            modelBuilder.Entity<Category>()
+                .HasOptional(c => c.ParentCategory)
+                .WithMany() 
+                .HasForeignKey(c => c.ParentCategoryId);
+        }
     }
 }

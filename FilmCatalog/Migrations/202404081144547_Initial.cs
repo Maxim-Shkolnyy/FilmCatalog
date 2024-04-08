@@ -8,17 +8,17 @@
         public override void Up()
         {
             CreateTable(
-                "dbo.Categories",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 200),
-                        ParentCategoryId = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Categories", t => t.ParentCategoryId)
-                .Index(t => t.ParentCategoryId);
-            
+    "dbo.Categories",
+    c => new
+    {
+        Id = c.Int(nullable: false, identity: true),
+        Name = c.String(nullable: false, maxLength: 200),
+        ParentCategoryId = c.Int(nullable: true), 
+    })
+    .PrimaryKey(t => t.Id)
+    .ForeignKey("dbo.Categories", t => t.ParentCategoryId)
+    .Index(t => t.ParentCategoryId);
+
             CreateTable(
                 "dbo.FilmCategories",
                 c => new

@@ -13,7 +13,7 @@ namespace FilmCatalog.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202404071613589_Initial"; }
+            get { return "202404081144547_Initial"; }
         }
         
         string IMigrationMetadata.Source
