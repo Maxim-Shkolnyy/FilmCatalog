@@ -21,36 +21,8 @@ namespace FilmCatalog.Controllers
         {
             var categories = db.Categories.Where(m => m.ParentCategoryId == 1).Include(c => c.ParentCategory);
             return View(await categories.ToListAsync());
-        }
-
-        [HttpPost]
-        public ActionResult Index(List<CategoryModel> categories)
-        {
-            if (db.Categories.Count() > 0)
-            {
-                return RedirectToAction("Index");
-            }
-
-            if (ModelState.IsValid)
-            {
-                var categoriesList = new List<Category>()
-{
-
-    new Category { Name = "RootCategory", ParentCategoryId = null },
-    new Category { Name = "Драма", ParentCategoryId = 1 },
-    new Category { Name = "Комедія", ParentCategoryId = 1 },
-    new Category { Name = "Жахи", ParentCategoryId = 1 },
-    new Category { Name = "Романтика", ParentCategoryId = 1 },
-    new Category { Name = "Триллер", ParentCategoryId = 1 },
-    new Category { Name = "Детектив", ParentCategoryId = 1 },
-    new Category { Name = "Фантастика", ParentCategoryId = 1 }
-                };
-
-                db.Categories.AddRange(categoriesList);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-        }
+        }       
+        
 
         // GET: Categories/Details/5
         public async Task<ActionResult> Details(int? id)

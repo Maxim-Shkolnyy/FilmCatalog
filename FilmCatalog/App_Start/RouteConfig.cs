@@ -19,11 +19,11 @@ namespace FilmCatalog
                 defaults: new { controller = "Films", action = "Index", id = UrlParameter.Optional }
             );
 
-        //    routes.MapRoute(
-        //    name: "Api",
-        //    url: "api/{controller}/{action}/{id}",
-        //    defaults: new { id = UrlParameter.Optional }
-        //);
+            routes.MapRoute(
+            name: "Api",
+            url: "api/{controller}/{action}/{id}",
+            defaults: new { id = UrlParameter.Optional }
+        );
         }
     }
 }

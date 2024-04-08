@@ -54,9 +54,7 @@ namespace FilmCatalog
                 Debug.WriteLine("Root category does not created!!!");
             }
 
-            var isCategoriesTableExists = context.Database.ExecuteSqlCommand(
-                "SELECT CASE WHEN EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Categories') THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS TableExists;");
-
+            
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

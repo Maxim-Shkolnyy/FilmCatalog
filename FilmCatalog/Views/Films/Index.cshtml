@@ -9,6 +9,15 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@Html.ActionLink("Fill table",  "FillTable", "Films", null, new { @class = "btn btn-primary" })
+<br />
+<br />
+
+@if (ViewBag.Message != null)
+{
+    <p class="text-danger">@ViewBag.Message</p>
+}
+
 <table id="filmsTable" class="table table-secondary">
     <thead>
         <tr>
@@ -54,6 +63,7 @@
 </table>
 
 @section scripts {
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
