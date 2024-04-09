@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace FilmCatalog.Models
 {
@@ -23,8 +20,6 @@ namespace FilmCatalog.Models
 
         [Required(ErrorMessage = "Дата виходу фільму обов'язкова")]
         [DataType(DataType.Date)]
-        public DateTime ReleaseDate { get; set; }
-
-        public virtual ICollection<FilmCategory> FilmCategories { get; set; }
+        public DateTime ReleaseDate { get; set; }        
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
 namespace FilmCatalog.Models.Presistant
 {
@@ -39,14 +35,14 @@ namespace FilmCatalog.Models.Presistant
         //    }
         //}
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            //Database.SetInitializer(new DbContextInitializer());
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    //Database.SetInitializer(new DbContextInitializer());
 
-            modelBuilder.Entity<Category>()
-                .HasOptional(c => c.ParentCategory)
-                .WithMany() 
-                .HasForeignKey(c => c.ParentCategoryId);
-        }
+        //    modelBuilder.Entity<FilmCategory>()
+        //        .HasKey(fc => fc.Id);
+        //    Property(fc => fc.FilmId).IsRequired();
+        //    Property(fc => fc.CategoryId).IsRequired();
+        //}
     }
 }
