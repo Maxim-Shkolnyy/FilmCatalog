@@ -20,6 +20,7 @@ namespace FilmCatalog.Controllers
         // GET: Films
         public async Task<ActionResult> Index()
         {
+            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name");
 
             List<FilmViewModel> films = db.Films
                    .Select(f => new FilmViewModel
@@ -155,7 +156,7 @@ namespace FilmCatalog.Controllers
         // GET: Films/Create
         public ActionResult Create()
         {
-            ViewBag.Categories = new SelectList(db.Films, "Id", "Name");
+            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name");
             return View();
         }
 
@@ -164,29 +165,29 @@ namespace FilmCatalog.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Director,ReleaseDate,FilmCategories")] Film film, int[] selectedCategories)
+        public ActionResult Create([Bind(Include = "Id,Name,Director,ReleaseDate,FilmCategories")] Film film, int[] selectedCategories)
         {
             if (ModelState.IsValid)
             {
                 if (selectedCategories != null)
-                {
-                    //film. = new List<FilmCategory>();
-                    //foreach (var categoryId in selectedCategories)
-                    //{
-                    //    var category = db.Categories.Find(categoryId);
-                    //    if (category != null)
-                    //    {
-                    //        film.Film.Add(new FilmCategory { CategoryId = categoryId });
-                    //    }
-                    //}
-                }
+                {   
+                    if (film != null)
+                    {
+                        db.Films.Add(film);
+                    }
+                    db.SaveChanges();                    
 
-                db.Films.Add(film);
-                await db.SaveChangesAsync();
+                    foreach (var categoryId in selectedCategories)
+                    {
+                        db.FilmCategories.Add(new FilmCategory {FilmId = film.Id, CategoryId = categoryId });
+                    }
+                }
+                
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-
-            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name");
+            
             return View(film);
         }
 
