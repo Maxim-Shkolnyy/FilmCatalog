@@ -34,7 +34,7 @@
 
             element.appendChild(checkboxElement);
             element.appendChild(labelElement);
-            element.appendChild(document.createElement('br')); // Додавання переносу рядка
+            element.appendChild(document.createElement('br'));
         });
     }
 }
