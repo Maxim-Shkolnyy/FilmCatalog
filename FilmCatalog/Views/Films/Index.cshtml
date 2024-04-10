@@ -72,22 +72,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#filmsTable').DataTable({
-                "order": []
-            });
-
-            $('#filmsTable thead th').click(function () {
-                var table = $('#filmsTable').DataTable();
-                var columnIdx = $(this).index(); 
-                var currentOrder = table.order()[0];
-                var isAscending = currentOrder[1] === 'asc';
-
-                if (currentOrder[0] === columnIdx) {
-                    table.order([columnIdx, isAscending ? 'desc' : 'asc']).draw();
-                } else {
-                    table.order([columnIdx, 'asc']).draw();
-                }
-            });
+            $('#filmsTable').DataTable();
         });
     </script>
 }
