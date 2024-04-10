@@ -34,9 +34,30 @@
             @Html.DisplayFor(model => model.ReleaseDate)
         </dd>
 
+        <dt>
+            Categories
+        </dt>
+
+        <dd>
+            <select id="categories" multiple>
+            </select>
+        </dd>
+
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section scripts {
+    
+    <script src="~/Scripts/CategoryManager .js"></script>
+    <script>
+        let categoryManager;
+        $(document).ready(function () {
+            categoryManager = new CategoryManager($("#categories"), @Model.Id);
+            categoryManager.displayCategories();
+        });
+    </script>
+}

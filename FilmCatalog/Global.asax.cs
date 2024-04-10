@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Data.Entity.Migrations;
-using AutoMapper;
+using System.Web.Http;
 
 namespace FilmCatalog
 {
@@ -50,10 +50,11 @@ namespace FilmCatalog
             }
 
             
-            AreaRegistration.RegisterAllAreas();
+            //AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //GlobalConfiguration.Configure(WebApiConfig.Register);
             //Database.SetInitializer(new MigrateDatabaseToLatestVersion<FilmDbContext, Configuration>());
         }
     }

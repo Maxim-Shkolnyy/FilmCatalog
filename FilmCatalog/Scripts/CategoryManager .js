@@ -1,10 +1,33 @@
 ﻿class CategoryManager {
-    constructor(categories) {
-        this.categories = categories;
+    
+
+
+    constructor(selectElement, filmId) {
+        this.selectElement = selectElement;
+        this.filmId = filmId;
     }
 
-    displayCategories(selectElementId) {
-        const selectElement = document.getElementById(selectElementId)
+    init() {
+
+
+    }
+
+    displayCategories() {
+
+        const options = {
+            method: 'GET',
+        };
+
+        fetch("/api/MyCategories/GetCategoriesForFilm", options)
+            .then(response => response.json())
+            .then((data) => {
+            // handle the response
+            })
+            .catch((error) => {
+            // handle the error
+            });
+
+        /*
 
         selectElement.innerHTML = '';
 
@@ -15,26 +38,8 @@
             optionElement.textContent = category.name;
             selectElement.appendChild(optionElement);
         });
+        */
     }
 
-    addCategoriesToElement(elementId) {
-        const element = document.getElementById(elementId);
 
-        element.innerHTML = '';
-
-        this.categories.forEach(category => {
-            const checkboxElement = document.createElement('input');
-            checkboxElement.type = 'checkbox';
-            checkboxElement.value = category.id;
-            checkboxElement.name = 'categories';
-            checkboxElement.id = `category_${category.id}`;
-            const labelElement = document.createElement('label');
-            labelElement.setAttribute('for', `category_${category.id}`);
-            labelElement.textContent = category.name;
-
-            element.appendChild(checkboxElement);
-            element.appendChild(labelElement);
-            element.appendChild(document.createElement('br'));
-        });
-    }
 }
