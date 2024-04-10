@@ -20,14 +20,18 @@ namespace FilmCatalog.Controllers
         // GET: Categories
         public async Task<ActionResult> Index()
         {
-            foreach (var category in db.Categories)
+            List<CategoryViewModel> categoriesList = new List<CategoryViewModel>();
+
+            var categories = await db.Categories.ToListAsync();
+
+            foreach (var category in categories)
             {
-                var categoryName = db.Categories
+                var categoryName = await db.Categories
                             .Where(p => p.Id == category.ParentCategoryId)
                             .Select(p => p.Name)
-                            .FirstOrDefault();
+                            .FirstOrDefaultAsync();
 
-                var categoriesCount = db.FilmCategories.Count(fc => fc.CategoryId == category.Id);
+                var categoriesCount = await db.FilmCategories.CountAsync(fc => fc.CategoryId == category.Id);
 
                 var nestingLevel = GetNestingLevel(category);
 
@@ -40,61 +44,14 @@ namespace FilmCatalog.Controllers
                     FilmCount = categoriesCount,
                     NestingLevel = nestingLevel
                 };
+                categoriesList.Add(categoryViewModel);
             }
-            
-            var categories = db.Categories.Select(c => new CategoryViewModel
-            {
-                Id = c.Id,
-                Name = c.Name,
-                ParentCategoryId = c.ParentCategoryId,
-                ParentCategoryName = db.Categories
-                            .Where(p => p.Id == c.ParentCategoryId)
-                            .Select(p => p.Name)
-                            .FirstOrDefault(), 
-                FilmCount = db.FilmCategories.Count(fc => fc.CategoryId == c.Id),
-                NestingLevel = 
-            }).ToListAsync();
 
-            
-
-
-            return View(await categories);
-
-
-            
-
-
-
-            //foreach (var category in categories)
-            //{
-            //    category.FilmCount = await db.FilmCategories.CountAsync(fc => fc.CategoryId == category.Id);
-            //}
-
-            //foreach (var category in categories)
-            //{
-            //    var categoryViewModel = new CategoryViewModel
-            //    {
-            //        Id = category.Id,
-            //        Name = category.Name,
-            //        ParentCategoryId = category.ParentCategoryId,
-            //        FilmCount = category.FilmCount
-            //    };
-            //    categoryViewModel.NestingLevel = GetNestingLevel(categoryViewModel);
-            //}
-
-            //var viewModelList = categories.Select(c => new CategoryViewModel
-            //{
-            //    Id = c.Id,
-            //    Name = c.Name,
-            //    ParentCategoryId = c.ParentCategoryId,
-            //    FilmCount = c.FilmCount,
-            //    NestingLevel = c.NestingLevel
-            //}).ToList();
-
-            //return View(viewModelList);
+            return View(categoriesList);
         }
+        
 
-        private int GetNestingLevel(Category category)
+    private int GetNestingLevel(Category category)
         {
             int nestingLevel = 0;
             
