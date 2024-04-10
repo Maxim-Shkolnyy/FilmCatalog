@@ -111,8 +111,11 @@ namespace FilmCatalog.Controllers
 
                 var filmCategoriesList = new List<FilmCategory>()
                 {
-                    new FilmCategory { FilmId= filmsList[0].Id, CategoryId = categoriesList[0].Id },
-                    new FilmCategory { FilmId= filmsList[1].Id, CategoryId = categoriesList[1].Id },
+                    new FilmCategory { FilmId= filmsList[0].Id, CategoryId = categoriesList[2].Id },
+                    new FilmCategory { FilmId= filmsList[0].Id, CategoryId = categoriesList[5].Id },
+                    new FilmCategory { FilmId= filmsList[1].Id, CategoryId = categoriesList[8].Id },
+                    new FilmCategory { FilmId= filmsList[1].Id, CategoryId = categoriesList[9].Id },
+                    new FilmCategory { FilmId= filmsList[1].Id, CategoryId = categoriesList[11].Id },
                     new FilmCategory { FilmId= filmsList[2].Id, CategoryId = categoriesList[2].Id },
                     new FilmCategory { FilmId= filmsList[3].Id, CategoryId = categoriesList[3].Id },
                     new FilmCategory { FilmId= filmsList[4].Id, CategoryId = categoriesList[4].Id },

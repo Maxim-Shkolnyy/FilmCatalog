@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-@Html.ActionLink("Fill table", "FillTable", "Films", null, new { @class = "btn btn-primary" })
+@Html.ActionLink("Fill table with data", "FillTable", "Films", null, new { @class = "btn btn-primary" })
 <br />
 <br />
 
@@ -25,6 +25,7 @@
             <th>Director</th>
             <th>Release Date</th>
             <th>Categories</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -71,7 +72,24 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#filmsTable').DataTable();
+            $('#filmsTable').DataTable({
+                "order": []
+            });
+
+            $('#filmsTable thead th').click(function () {
+                var table = $('#filmsTable').DataTable();
+                var columnIdx = $(this).index(); 
+                var currentOrder = table.order()[0];
+                var isAscending = currentOrder[1] === 'asc';
+
+                if (currentOrder[0] === columnIdx) {
+                    table.order([columnIdx, isAscending ? 'desc' : 'asc']).draw();
+                } else {
+                    table.order([columnIdx, 'asc']).draw();
+                }
+            });
         });
     </script>
 }
+
+
