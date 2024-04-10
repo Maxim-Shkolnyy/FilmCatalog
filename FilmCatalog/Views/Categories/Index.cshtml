@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FilmCatalog.Models.Category>
+﻿@model IEnumerable<FilmCatalog.ViewModels.CategoryViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table id="filmsTable" class="table">
+<table id="categoriesTable" class="table">
     <thead>
         <tr>
             <th>
@@ -17,6 +17,10 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th><span>Films in category</span></th>
+            <th>
+                <span>Nesting level</span>
             </th>
             <th>
                 <span>Actions</span>
@@ -33,6 +37,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
+                <td></td>
+                <td></td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
@@ -48,7 +54,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#filmsTable').DataTable();
+            $('#categoriesTable').DataTable();
         });
     </script>
 }

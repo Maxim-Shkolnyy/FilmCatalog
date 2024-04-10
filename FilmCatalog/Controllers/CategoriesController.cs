@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using FilmCatalog.Models;
 using FilmCatalog.Models.Presistant;
+using FilmCatalog.ViewModels;
 
 namespace FilmCatalog.Controllers
 {
@@ -19,9 +20,67 @@ namespace FilmCatalog.Controllers
         // GET: Categories
         public async Task<ActionResult> Index()
         {
-            var categories = db.Categories.Where(m => m.ParentCategoryId == 1);
-            return View(await categories.ToListAsync());
+            var categories = await db.Categories
+                .Where(m => m.ParentCategoryId == 1)
+                .Select(c => new CategoryViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    ParentCategoryId = c.ParentCategoryId,
+                    FilmCount = db.FilmCategories.Count(fc => fc.CategoryId == c.Id)
+                })
+                .ToListAsync();
+
+            foreach (var category in categories)
+            {
+                category.NestingLevel = GetNestingLevel(category);
+            }
+
+
+
+            foreach (var category in categories)
+            {
+                category.FilmCount = await db.FilmCategories.CountAsync(fc => fc.CategoryId == category.Id);
+            }
+
+            foreach (var category in categories)
+            {
+                var categoryViewModel = new CategoryViewModel
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    ParentCategoryId = category.ParentCategoryId,
+                    FilmCount = category.FilmCount
+                };
+                categoryViewModel.NestingLevel = GetNestingLevel(categoryViewModel);
+            }
+
+            var viewModelList = categories.Select(c => new CategoryViewModel
+            {
+                Id = c.Id,
+                Name = c.Name,
+                ParentCategoryId = c.ParentCategoryId,
+                FilmCount = c.FilmCount,
+                NestingLevel = c.NestingLevel
+            }).ToList();
+
+            return View(viewModelList);
+        }       
+
+        private int GetNestingLevel(CategoryViewModel category)
+        {
+            int nestingLevel = 0;
+            CategoryViewModel currentCategory = category;
+
+            while (currentCategory.ParentCategory != null)
+            {
+                nestingLevel++;
+                currentCategory = currentCategory.ParentCategory;
+            }
+
+            return nestingLevel;
         }
+
 
 
         // GET: Categories/Details/5

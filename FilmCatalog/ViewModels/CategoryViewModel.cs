@@ -10,10 +10,12 @@ using FilmCatalog.Models;
 namespace FilmCatalog.ViewModels
 {
     public class CategoryViewModel
-    {
-        public int Id { get; set; }        
+    {   public int Id { get; set; }        
         public string Name { get; set; }
         public int? ParentCategoryId { get; set; }
-        List<FilmCategory> FilmCategories { get; set; }        
+        List<FilmCategory> FilmCategories { get; set; }
+        public int FilmCount { get; set; } 
+        public int NestingLevel { get; set; }
+        public virtual CategoryViewModel ParentCategory { get; set; }
     }
 }
