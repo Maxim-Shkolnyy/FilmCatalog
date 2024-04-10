@@ -10,7 +10,7 @@ namespace FilmCatalog
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "DefaultApi",
+                name: "Api",
                 url: "api/{controller}/{action}/{id}",
                 defaults: new { id = UrlParameter.Optional });
 
@@ -19,11 +19,7 @@ namespace FilmCatalog
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Films", action = "Index", id = UrlParameter.Optional }
-            );
-
-           
-
-
+            );      
         }
     }
 }

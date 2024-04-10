@@ -17,6 +17,7 @@ namespace FilmCatalog.Controllers
         private FilmDbContext db = new FilmDbContext();
 
         //[HttpGet]
+        //[Route("api/Controllers/MyCategories")]
         public HttpResponseMessage GetCategoriesForFilm(int? FilmId)
         {
             List<FilmCategory> dbFilmCategories = db.FilmCategories.Where(x => x.FilmId == FilmId).ToList();
