@@ -56,8 +56,8 @@
     <script>
         let categoryManager;
         $(document).ready(function () {
-            categoryManager = new CategoryManager($("#categories"), @Model.Id);
-            categoryManager.displayCategories();
+            categoryManager = new CategoryManager("#categories", @Model.Id);
+            categoryManager.init();
         });
     </script>
 }

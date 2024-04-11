@@ -8,9 +8,10 @@ namespace FilmCatalog.ApiModels
 {
     public class FilmCategoryApiModel
     {
-
         public int CategoryId { get; set; }
 
         public string CategoryName { get; set; }
+
+        public bool Selected { get; set; }
     }
 }

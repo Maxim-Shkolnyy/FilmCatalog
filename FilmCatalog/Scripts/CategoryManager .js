@@ -9,36 +9,64 @@
 
     init() {
 
+        this.displayCategories();
+        let cls = this;
+
+        $(this.selectElement).change(() => {
+            cls.saveCategories();
+        });
 
     }
 
     displayCategories() {
+        $(this.selectElement).empty();
 
-        const options = {
-            method: 'GET',
-        };
-
-        fetch("/api/MyCategories/GetCategoriesForFilm", options)
+        fetch("/api/MyCategories/GetCategoriesForFilm?filmId=" + this.filmId, { method: 'GET' })
             .then(response => response.json())
             .then((data) => {
-            // handle the response
-            })
-            .catch((error) => {
-            // handle the error
+                data.forEach((cat) => {
+                    let opts = {
+                        value: cat.CategoryId,
+                        text: cat.CategoryName
+
+                    };
+                    if (cat.Selected) {
+                        opts.selected = "selected";
+                    }
+
+                    $(this.selectElement).append($('<option>', opts));
+                }
+                );
+
             });
 
-        /*
 
-        selectElement.innerHTML = '';
+    }
 
-        this.categories.forEach(c => {
-            const optionElement = document.createElement('option');
+    saveCategories() {
+        let data = [];
 
-            optionElement.value = category.id;
-            optionElement.textContent = category.name;
-            selectElement.appendChild(optionElement);
+        $(this.selectElement).val().forEach(item => {
+
+            let dataitem = {
+                CategoryId: item,
+                Selected: true
+            }
+
+            data.push(dataitem);
+            
         });
-        */
+
+        let opts = {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        };
+
+        fetch("/api/MyCategories/SetCategoriesForFilm?filmId=" + this.filmId, opts);
     }
 
 

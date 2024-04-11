@@ -16,28 +16,48 @@ namespace FilmCatalog.Controllers
     {
         private FilmDbContext db = new FilmDbContext();
 
-        //[HttpGet]
+        [HttpGet]
         //[Route("api/Controllers/MyCategories")]
-        public HttpResponseMessage GetCategoriesForFilm(int? FilmId)
+        public HttpResponseMessage GetCategoriesForFilm(int? filmId)
         {
-            List<FilmCategory> dbFilmCategories = db.FilmCategories.Where(x => x.FilmId == FilmId).ToList();
-            
             List<FilmCategoryApiModel> lsFilmCategoryApiModels = new List<FilmCategoryApiModel>();
             
-            foreach (FilmCategory dbFilmCategory in dbFilmCategories)
+            Category[] dbCategories = db.Categories.ToArray();
+            foreach (Category dbCategory in dbCategories)
             {
-                Category dbCategory = db.Categories.FirstOrDefault(x=>x.Id == dbFilmCategory.CategoryId);
+                bool bSelected = db.FilmCategories.Any(x => x.FilmId == filmId && x.CategoryId == dbCategory.Id);
 
                 lsFilmCategoryApiModels.Add(new FilmCategoryApiModel
                 {
-                    CategoryId = dbFilmCategory.CategoryId,
-                    CategoryName = dbCategory?.Name
+                    CategoryId = dbCategory.Id,
+                    CategoryName = dbCategory.Name,
+                    Selected = bSelected
                 });
 
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, lsFilmCategoryApiModels);
             
+        }
+
+        [HttpPost]
+        public HttpResponseMessage SetCategoriesForFilm([FromUri] int? filmId, [FromBody] List<FilmCategoryApiModel> lsModel)
+        {
+            db.FilmCategories.RemoveRange(db.FilmCategories.Where(x => x.FilmId == filmId));
+            db.SaveChanges();
+
+            foreach (FilmCategoryApiModel apiCategory in lsModel)
+            {
+                if (apiCategory.Selected)
+                {
+                    db.FilmCategories.Add(new FilmCategory { FilmId = filmId.Value, CategoryId = apiCategory.CategoryId });
+                }
+            }
+
+            db.SaveChanges();
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+
         }
     }
 }
